@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1545054997 source:f:\c¡∑œ∞\traffic\main.cpp
+1545059894 source:f:\c¡∑œ∞\traffic\main.cpp
 	"traffic.h"
 
-1545055140 f:\c¡∑œ∞\traffic\traffic.h
+1545059872 f:\c¡∑œ∞\traffic\traffic.h
 	"stdio.h"
 	"stdlib.h"
 	"string.h"
 
-1545055498 source:f:\c¡∑œ∞\traffic\traffic.cpp
+1545060222 source:f:\c¡∑œ∞\traffic\traffic.cpp
 	"traffic.h"
 

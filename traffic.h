@@ -72,8 +72,12 @@ typedef struct TimeNode {
 
 
 
-
+void Administer(ALGraph *G); //显示管理员管理项目选择界面
 void initGraph(ALGraph *G); //初始化交通系统
+int save(ALGraph *G);//
+void cityEdit(ALGraph *G);
+void addVex(ALGraph *G);
+void deleteVex(ALGraph *G) ;
 
 
 

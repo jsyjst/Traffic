@@ -7,7 +7,7 @@ struct arc {
     char arriveCity[10]; //目的地
     int beginTime[2];   //出发时间
     int arriveTime[2];  //到达时间
-}VehicleNote[MAX_ARC_SIZE];
+} VehicleNote[MAX_ARC_SIZE];
 char city[MAX_VERTEX_NUM][10];
 int TTime[2];
 int time[2];
@@ -16,11 +16,44 @@ int time2[2];
 int c[MAX_VERTEX_NUM];
 int d[MAX_VERTEX_NUM];
 
-void initGraph(ALGraph *G)     //初始化交通系统
+void Administer(ALGraph *G)
 /*
-  初始化交通系统方式选择界面
+  显示管理员管理项目选择界面
 */
 {
+    int i;
+    printf("\n请选择管理项目:\n");
+    printf("1=初始化交通系统\n2=城市编辑\n3=飞机航班编辑\n4=列车车次编辑\n5=返回上一级菜单\n");
+    printf("选择?");
+    scanf("%d", &i);
+    getchar();
+    while(i != 5) {
+        switch(i) {
+        case 1:
+            initGraph(G);    //初始化交通系统
+            break;
+        case 2:
+            cityEdit(G);     //城市编辑
+            break;
+        case 3:
+
+            break;
+        case 4:
+
+            break;
+        }
+        printf("\n请选择管理项目:\n");
+        printf("1=初始化交通系统\n2=城市编辑\n3=飞机航班编辑\n4=列车车次编辑\n5=返回上一级菜单\n");
+        printf("选择?");
+        scanf("%d", &i);
+        getchar();
+    }
+}
+
+/*
+ 初始化交通系统方式选择界面
+*/
+void initGraph(ALGraph *G) {   //初始化交通系统
     int i;
     printf("请选择初始化方式:\n");
     printf("1=键盘\n2=文档\n");
@@ -39,11 +72,11 @@ void initGraph(ALGraph *G)     //初始化交通系统
         break;
     }
 }
-void createCityFile()
+
 /*
   创建城市名称文档
 */
-{
+void createCityFile() {
     int i = 0;
     int j;
     char flag = 'y';
@@ -67,11 +100,11 @@ void createCityFile()
         fprintf(fpWrite, "%10s", city[j]);
     fclose(fpWrite);
 }
-void createPlaneFile()
+
 /*
   创建飞机航班文档
 */
-{
+void createPlaneFile() {
     int num, beginTime[2], arriveTime[2]; //num航班编号，beginTime出发时间，arriveTime到达时间
     float money;  //费用
     int i;
@@ -135,11 +168,11 @@ void createPlaneFile()
     fclose(fp);    //关闭航班文件
 }
 
-void createTrainFile()
+
 /*
   创建列车车次文档
 */
-{
+void createTrainFile() {
     int num, beginTime[2], arriveTime[2]; //num航班编号，beginTime出发时间，arriveTime到达时间
     float money;  //费用
     int i;
@@ -204,11 +237,10 @@ void createTrainFile()
 }
 
 
-int LocateVex(ALGraph *G, char *v)
 /*
   城市名在交通系统中定位操作，找出城市名在图中对应结点位置
 */
-{
+int LocateVex(ALGraph *G, char *v) {
     int j, k;
     j = -1;
     for(k = 0; k < G->vexNum; k++)
@@ -219,11 +251,11 @@ int LocateVex(ALGraph *G, char *v)
     return j;
 }
 
-void createGraph(ALGraph *G)
+
 /*
   用city，plan，train三个文档创建城市交通系统
 */
-{
+void createGraph(ALGraph *G) {
     int i, j, k;
     int arcNum;  //弧的数量
     int count1, count2;  //飞机和列车的班次
@@ -320,7 +352,7 @@ void createGraph(ALGraph *G)
         q = G->vexs[i].trainFirstArc;
         m = 0;
         while(q != NULL) {
-            if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
+            if(q->adjvex == j) { //弧q中的邻接顶点与j相等
                 t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
                 q->info.stata[t].num = VehicleNote[k].num;
                 q->info.stata[t].money = VehicleNote[k].money;
@@ -352,3 +384,240 @@ void createGraph(ALGraph *G)
     }
     G->trainArcNum = arcNum;
 }
+
+
+/*
+  保存城市交通系统到相应的文档
+*/
+int save(ALGraph *G) {
+    /*城市操作*/
+    int i, j, k, t;
+    ArcNode *q;
+    FILE *fp;
+    j = 0;
+    while(j < G->vexNum) {
+        strcpy(city[j], G->vexs[j].cityName);
+        j++;
+    }
+    i = 0;
+    if((fp = fopen("city.txt", "wb")) == NULL)
+        printf("\n错误,无法打开文件!\n");
+    while(i < G->vexNum) {
+        fprintf(fp, "%10s", city[i]);
+        i++;
+    }
+    fclose(fp);
+
+    /*航班操作*/
+    k = 0;
+    for(i = 0; i < G->vexNum; i++) {
+        q = G->vexs[i].planeFirstArc;
+        while(q != NULL) {
+            for(t = 0; t <= q->info.last; t++) {
+                strcpy(VehicleNote[k].beginCity, G->vexs[i].cityName);
+                strcpy(VehicleNote[k].arriveCity, G->vexs[q->adjvex].cityName);
+                VehicleNote[k].num = q->info.stata[t].num;
+                VehicleNote[k].money = q->info.stata[t].money;
+                VehicleNote[k].beginTime[0] = q->info.stata[t].beginTime[0];
+                VehicleNote[k].beginTime[1] = q->info.stata[t].beginTime[1];
+                VehicleNote[k].arriveTime[0] = q->info.stata[t].arriveTime[0];
+                VehicleNote[k].arriveTime[1] = q->info.stata[t].arriveTime[0];
+                k++;
+            }
+            q = q->nextArc;
+        }
+    }
+    if((fp = fopen("plane.txt", "wb")) == NULL) {
+        printf("\n无法打开航班文件!\n");
+        return 0;
+    }
+    i = 0;
+    fprintf(fp, "%d", k);
+    while(i < k) {
+        if(fwrite(&VehicleNote[i], sizeof(struct arc), 1, fp) != 1)
+            printf("\n航班文件写入错误!\n");
+        i++;
+    }
+    fclose(fp);
+
+
+    /*列车操作*/
+    k = 0;
+    for(i = 0; i < G->vexNum; i++) {
+        q = G->vexs[i].trainFirstArc;
+        while(q != NULL) {
+            for(t = 0; t <= q->info.last; t++) {
+                strcpy(VehicleNote[k].beginCity, G->vexs[i].cityName);
+                strcpy(VehicleNote[k].arriveCity, G->vexs[q->adjvex].cityName);
+                VehicleNote[k].num = q->info.stata[t].num;
+                VehicleNote[k].money = q->info.stata[t].money;
+                VehicleNote[k].beginTime[0] = q->info.stata[t].beginTime[0];
+                VehicleNote[k].beginTime[1] = q->info.stata[t].beginTime[1];
+                VehicleNote[k].arriveTime[0] = q->info.stata[t].arriveTime[0];
+                VehicleNote[k].arriveTime[1] = q->info.stata[t].arriveTime[0];
+                k++;
+            }
+            q = q->nextArc;
+        }
+    }
+    if((fp = fopen("train.txt", "wb")) == NULL) {
+        printf("\n无法打开列车文件!\n");
+        return 0;
+    }
+    i = 0;
+    fprintf(fp, "%d", k);
+    while(i < k) {
+        if(fwrite(&VehicleNote[i], sizeof(struct arc), 1, fp) != 1)
+            printf("\n列车文件写入错误!\n");
+        i++;
+    }
+    fclose(fp);
+    return 1;
+}
+
+
+/*
+  显示城市编辑项目选择界面
+*/
+void cityEdit(ALGraph *G)
+{
+    int i;
+    printf("\n请选择城市编辑项目:\n");
+    printf("1=增加城市\n2=删除城市\n");
+    printf("选择?");
+    scanf("%d", &i);
+    getchar();
+    if(i == 1)
+        addVex(G);
+    if(i == 2)
+        deleteVex(G);
+}
+
+/*
+  增加城市
+*/
+void addVex(ALGraph *G)
+{
+    char city[10], flag;
+    int i;
+    printf("\n请输入新增城市的名称:");
+    gets(city);
+    i = LocateVex(G, city);
+    if(i >= 0 && i < G->vexNum) {
+        printf("\n错误！此城市已存在\n");
+        return;
+    } else {
+        printf("\n确认?(Y/N)");
+        flag = getchar();
+        getchar();
+        if(flag == 'Y' || flag == 'y') {
+            i = G->vexNum;
+            strcpy(G->vexs[i].cityName, city);
+            G->vexs[i].planeFirstArc = NULL;
+            G->vexs[i].trainFirstArc = NULL;
+            G->vexNum = i + 1;
+            save(G);
+        } else
+            return;
+    }
+}
+
+/*
+  删除城市
+*/
+void deleteVex(ALGraph *G)
+{
+    int i, j, k, n;
+    char city[10], flag;
+    ArcNode *p, *q, *m;
+    printf("\n请输入删除的城市:"); //提示"输入删除城市名"
+    gets(city);
+    printf("\n确认?(Y/N)");  //提示"是否确定要删除"
+    flag = getchar();
+    getchar();
+    if(flag == 'Y' || flag == 'y') {
+        n = 0;         //0是记数标志，控制循环次数
+        while(n < G->vexNum && strcmp(G->vexs[n].cityName, city) != 0) //n<图G表头接点总个数&&图G的存储城市名与v不同,G表头结点总个数比实际大1
+            n++; //记数值n+1
+        if(n == G->vexNum) //n==图G表头结点总个数
+            printf("\n错误！无法找到此城市!\n"); //提示"无法找到此城市"
+        else {
+            i = LocateVex(G, city); //利用G函数找到此城市名所处在G中位置
+            p = G->vexs[i].planeFirstArc;
+            while(p != NULL) {
+                q = p;
+                p = p->nextArc;
+                free(q);  //删除从此结点出发的所有航班弧
+            }
+            p = G->vexs[i].trainFirstArc;
+            while(p != NULL) {
+                q = p;
+                p = p->nextArc;
+                free(q);    //删除从此结点出发的所有列车弧
+            }
+            for(j = i; j < G->vexNum - 1; j++) {
+                strcpy(G->vexs[j].cityName, G->vexs[j + 1].cityName); //将G第j个结点的信息依前移1位
+                G->vexs[j].planeFirstArc = G->vexs[j + 1].planeFirstArc;
+                G->vexs[j].trainFirstArc = G->vexs[j + 1].trainFirstArc;
+            }
+            G->vexs[j].planeFirstArc = NULL; //将G第j个结点的信息置空
+            G->vexs[j].trainFirstArc = NULL;
+            /*删除所有指向此结点的航班弧*/
+            for(k = 0; k < G->vexNum - 1; k++) {
+                p = G->vexs[k].planeFirstArc;
+                while(p != NULL) {
+                    if(p->adjvex > i) {
+                        p->adjvex = p->adjvex - 1;
+                        q = p;
+                        p = p->nextArc; //p指向下一条飞机弧
+                    } else if(p->adjvex == i) { //该弧指向删除的顶点位置
+                        if(p == G->vexs[k].planeFirstArc) { //p指向图G中k结点的第一条飞机弧
+                            m = p;
+                            G->vexs[k].planeFirstArc = p->nextArc; //将图G中k结点的第二条飞机弧改为第一弧
+                            p = p->nextArc; //p指向下一条飞机弧
+                            free(m);  //释放（m）
+                        } else {
+                            q->nextArc = p->nextArc; //将p的下一条弧赋给q的下一条弧
+                            m = p;
+                            p = p->nextArc; //p指向下一条飞机弧
+                            free(q);  //释放(q)
+                        }
+                    } else {
+                        q = p;
+                        p = p->nextArc; //p指向下一条飞机弧
+                    }
+                }
+            }
+            /*删除所有指向此结点的列车弧*/
+            for(k = 0; k < G->vexNum - 1; k++) {
+                p = G->vexs[k].trainFirstArc;
+                while(p != NULL) {
+                    if(p->adjvex > i) {
+                        p->adjvex = p->adjvex - 1;
+                        q = p;
+                        p = p->nextArc; //p指向下一条飞机弧
+                    } else if(p->adjvex == i) { //该弧指向删除的顶点位置
+                        if(p == G->vexs[k].trainFirstArc) { //p指向图G中k结点的第一条飞机弧
+                            m = p;
+                            G->vexs[k].trainFirstArc = p->nextArc; //将图G中k结点的第二条飞机弧改为第一弧
+                            p = p->nextArc; //p指向下一条飞机弧
+                            free(m);  //释放（m）
+                        } else {
+                            q->nextArc = p->nextArc; //将p的下一条弧赋给q的下一条弧
+                            m = p;
+                            p = p->nextArc; //p指向下一条飞机弧
+                            free(q);  //释放(q)
+                        }
+                    } else {
+                        q = p;
+                        p = p->nextArc; //p指向下一条飞机弧
+                    }
+                }
+            }
+        }
+        G->vexNum--;
+        save(G);
+    } else
+        return;
+}
+
