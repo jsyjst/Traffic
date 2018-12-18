@@ -32,9 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="common.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="traffic.cpp" />
+		<Unit filename="manager.cpp" />
+		<Unit filename="showGraph.cpp" />
 		<Unit filename="traffic.h" />
+		<Unit filename="userAsk.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

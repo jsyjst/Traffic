@@ -97,8 +97,15 @@ int deleteTrainArc(ALGraph *G); //删除列车班次
 
 /**----------------交通查询系统----------------**/
 void showGraph(ALGraph *G);
-void showTraffic(ALGraph *G);
-void planeDedailByNum(ALGraph *G);
-void trainDedailByNum(ALGraph *G);
+void showTraffic(ALGraph *G); //显示交通总览
+void planeDedailByNum(ALGraph *G); //通过航班查询该航班的详细信息
+void trainDedailByNum(ALGraph *G);  //通过列车车次查询该车次的详细信息
+
+/**----------------用户咨询------------------------------------**/
+void userAsk(ALGraph G);
+void askDispose(int n, ALGraph G);
+void transferDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1);
+void minMoney(infoList arcs, float *money, int *route);
+void moneyDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, float *M, int *final);
 
 #endif // TRAFFIC_H_INCLUDED

@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1545112320 source:f:\c¡∑œ∞\traffic\main.cpp
+1545131603 source:f:\c¡∑œ∞\traffic\main.cpp
 	"traffic.h"
 
-1545119241 f:\c¡∑œ∞\traffic\traffic.h
+1545131167 f:\c¡∑œ∞\traffic\traffic.h
 	"stdio.h"
 	"stdlib.h"
 	"string.h"
@@ -18,5 +18,8 @@
 1545109670 f:\c¡∑œ∞\traffic\common.h
 
 1545119512 source:f:\c¡∑œ∞\traffic\showgraph.cpp
+	"traffic.h"
+
+1545131539 source:f:\c¡∑œ∞\traffic\userask.cpp
 	"traffic.h"
 
