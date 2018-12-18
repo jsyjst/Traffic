@@ -71,8 +71,8 @@ typedef struct TimeNode {
 
 
 
-/**----------------管理员----------------------------**/
-void Administer(ALGraph *G); //显示管理员管理项目选择界面
+/**----------------管理员系统----------------------------**/
+void manager(ALGraph *G); //显示管理员管理项目选择界面
 
 /*初始化交通系统*/
 void initGraph(ALGraph *G);
@@ -95,7 +95,10 @@ void trainEdit(ALGraph *G);
 void addTrainArc(ALGraph *G); // 添加列车班次
 int deleteTrainArc(ALGraph *G); //删除列车班次
 
-
-
+/**----------------交通查询系统----------------**/
+void showGraph(ALGraph *G);
+void showTraffic(ALGraph *G);
+void planeDedailByNum(ALGraph *G);
+void trainDedailByNum(ALGraph *G);
 
 #endif // TRAFFIC_H_INCLUDED

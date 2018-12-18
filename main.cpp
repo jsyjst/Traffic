@@ -1,28 +1,34 @@
 #include "traffic.h"
 
-int main(){
+int main() {
     ALGraph G;
     int i;
-    printf("请选择程序功能:\n");
-    printf("1=管理员管理\n2=用户咨询\n3=显示交通系统\n4=退出\n");
-    printf("选择?");
+    printf("                         全国交通咨询系统:\n");
+    printf("\n            |            1.管理员管理           |\n");
+    printf("\n            |            2.交通系统查询         |\n");
+    printf("\n            |            3.交通咨询             |\n");
+    printf("\n            |            4.退出                 |\n");
+    printf("\n选择?");
     scanf("%d", &i);
     getchar();
     while(i != 4) {
         switch(i) {
         case 1:
-            Administer(&G);
+            manager(&G);
             break;
         case 2:
-
+            showGraph(&G);
             break;
         case 3:
 
             break;
         }
-        printf("\n请选择程序功能:\n");
-        printf("1=管理员管理\n2=用户咨询\n3=显示交通系统\n4=退出\n");
-        printf("选择?");
+        printf("                           全国交通咨询系统:\n");
+        printf("\n            |              1.管理员管理           |\n");
+        printf("\n            |              2.交通系统查询         |\n");
+        printf("\n            |              3.交通咨询             |\n");
+        printf("\n            |              4.退出                 |\n");
+        printf("\n选择?");
         scanf("%d", &i);
         getchar();
     }

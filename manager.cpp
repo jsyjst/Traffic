@@ -1,15 +1,19 @@
 #include "traffic.h"
 #include "common.h"
 
-void Administer(ALGraph *G)
+void manager(ALGraph *G)
 /*
   显示管理员管理项目选择界面
 */
 {
     int i;
-    printf("\n请选择管理项目:\n");
-    printf("1=初始化交通系统\n2=城市编辑\n3=飞机航班编辑\n4=列车车次编辑\n5=返回上一级菜单\n");
-    printf("选择?");
+    printf("                         管理员管理:\n");
+    printf("\n            |            1.初始化交通系统           |\n");
+    printf("\n            |            2.城市编辑                 |\n");
+    printf("\n            |            3.飞机航班编辑             |\n");
+    printf("\n            |            4.列车车次编辑             |\n");
+    printf("\n            |            5.返回上一级菜单           |\n");
+    printf("\n选择?");
     scanf("%d", &i);
     getchar();
     while(i != 5) {
@@ -27,9 +31,13 @@ void Administer(ALGraph *G)
             trainEdit(G);  //列车编辑
             break;
         }
-        printf("\n请选择管理项目:\n");
-        printf("1=初始化交通系统\n2=城市编辑\n3=飞机航班编辑\n4=列车车次编辑\n5=返回上一级菜单\n");
-        printf("选择?");
+        printf("                         管理员管理:\n");
+        printf("\n            |            1.初始化交通系统           |\n");
+        printf("\n            |            2.城市编辑                 |\n");
+        printf("\n            |            3.飞机航班编辑             |\n");
+        printf("\n            |            4.列车车次编辑             |\n");
+        printf("\n            |            5.返回上一级菜单           |\n");
+        printf("\n选择?");
         scanf("%d", &i);
         getchar();
     }
@@ -40,9 +48,10 @@ void Administer(ALGraph *G)
 */
 void initGraph(ALGraph *G) {   //初始化交通系统
     int i;
-    printf("请选择初始化方式:\n");
-    printf("1=键盘\n2=文档\n");
-    printf("选择?");
+    printf("                         初始化方式:\n");
+    printf("\n            |            1.键盘           |\n");
+    printf("\n            |            2.文档           |\n");
+    printf("\n选择?");
     scanf("%d", &i);
     getchar();
     switch(i) {
