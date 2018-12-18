@@ -21,8 +21,8 @@ typedef struct {
     int arriveTime[2]; //到达时间
 } Vehicle; //交通工具信息
 typedef struct {
-    Vehicle stata[MAX_ROUTE_NUM];
-    int last;  //上一个邻接点的位序
+    Vehicle stata[MAX_ROUTE_NUM];  //存储同个目的地和出发地的多个航班
+    int last;  //最后一个航班
 } infoList;
 /*邻接链表的结点类型*/
 typedef struct ArcNode {
@@ -71,19 +71,31 @@ typedef struct TimeNode {
 
 
 
-
+/**----------------管理员----------------------------**/
 void Administer(ALGraph *G); //显示管理员管理项目选择界面
-void initGraph(ALGraph *G); //初始化交通系统
-int save(ALGraph *G);//
+
+/*初始化交通系统*/
+void initGraph(ALGraph *G);
+void createCityFile(); //创建城市文件
+void createPlaneFile(); // 创建航班文件
+void createTrainFile(); //创建列车文件
+void createGraph(ALGraph *G); //创建交通系统文件
+
+int save(ALGraph *G);//保存交通系统图
+/*城市编辑*/
 void cityEdit(ALGraph *G);
-void addVex(ALGraph *G);
-void deleteVex(ALGraph *G) ;
+void addVex(ALGraph *G);   //添加城市
+void deleteVex(ALGraph *G) ;  //删除城市
+/*航班编辑*/
+void planeEdit(ALGraph *G);
+void addPlaneArc(ALGraph *G);  //添加航班班次
+int deletePlaneArc(ALGraph *G);  //删除航班班次
+/*列车编辑*/
+void trainEdit(ALGraph *G);
+void addTrainArc(ALGraph *G); // 添加列车班次
+int deleteTrainArc(ALGraph *G); //删除列车班次
 
 
 
-void createCityFile();
-void createPlaneFile();
-void createTrainFile();
-void createGraph(ALGraph *G);
 
 #endif // TRAFFIC_H_INCLUDED

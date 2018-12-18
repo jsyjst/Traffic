@@ -36,10 +36,10 @@ void Administer(ALGraph *G)
             cityEdit(G);     //城市编辑
             break;
         case 3:
-
+            planeEdit(G);  //航班编辑
             break;
         case 4:
-
+            trainEdit(G);  //列车编辑
             break;
         }
         printf("\n请选择管理项目:\n");
@@ -479,8 +479,7 @@ int save(ALGraph *G) {
 /*
   显示城市编辑项目选择界面
 */
-void cityEdit(ALGraph *G)
-{
+void cityEdit(ALGraph *G) {
     int i;
     printf("\n请选择城市编辑项目:\n");
     printf("1=增加城市\n2=删除城市\n");
@@ -496,8 +495,7 @@ void cityEdit(ALGraph *G)
 /*
   增加城市
 */
-void addVex(ALGraph *G)
-{
+void addVex(ALGraph *G) {
     char city[10], flag;
     int i;
     printf("\n请输入新增城市的名称:");
@@ -525,8 +523,7 @@ void addVex(ALGraph *G)
 /*
   删除城市
 */
-void deleteVex(ALGraph *G)
-{
+void deleteVex(ALGraph *G) {
     int i, j, k, n;
     char city[10], flag;
     ArcNode *p, *q, *m;
@@ -621,3 +618,366 @@ void deleteVex(ALGraph *G)
         return;
 }
 
+/*
+  飞机航班编辑项目选择界面
+*/
+void planeEdit(ALGraph *G) {
+    int i;
+    printf("\n请选择飞机航班编辑项目:\n");
+    printf("1=新增航班\n2=删除航班\n");
+    printf("选择?");
+    scanf("%d", &i);
+    getchar();
+    if(i == 1)
+        addPlaneArc(G);
+    if(i == 2)
+        deletePlaneArc(G);
+}
+/*
+  列车车次编辑项目选择界面
+*/
+void trainEdit(ALGraph *G) {
+    int i;
+    printf("\n请选择列车车次编辑项目:\n");
+    printf("1=新增车次\n2=删除车次\n");
+    printf("选择?");
+    scanf("%d", &i);
+    getchar();
+    if(i == 1)
+        addTrainArc(G);
+    if(i == 2)
+        deleteTrainArc(G);
+}
+
+
+/*
+  增加飞机航班
+*/
+void addPlaneArc(ALGraph *G) {
+    int num, beginTime[2], arriveTime[2]; //num航班编号，beginTime出发时间，arriveTime到达时间
+    float money;  //费用
+    int i, j, m, t;
+    int k; //用来记录航班的车次
+    char beginCity[10], arriveCity[10], flag; //beginCity起始城市，arriveCity目标城市
+    ArcNode *p, *q;
+    printf("请输入飞机航班的信息:\n"); //提示"输入航班信息"
+    printf("飞机航班编号:");  //输入航班num
+    scanf("%d", &num);
+    getchar();
+    printf("起始城市:");   //输入航班的出发城市beginCity
+    gets(beginCity);
+    printf("目的城市:");  //输入航班的到达城市arriveCity
+    gets(arriveCity);
+    printf("航班费用:");  //输入机票价格money
+    scanf("%f", &money);
+    getchar();
+    printf("起飞时间:");  //输入航班的出发时间beginTime
+    scanf("%d:%d", &beginTime[0], &beginTime[1]);
+    getchar();
+    while(beginTime[0] < 0 || beginTime[0] >= 24 || beginTime[1] < 0 || beginTime[1] >= 60) {
+        printf("\n时间输入有误，请重新输入\n");
+        scanf("%d:%d", &beginTime[0], &beginTime[1]);
+        getchar();
+    }
+    printf("到达时间:");  //输入航班的到达时间arriveTime
+    scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
+    getchar();
+    while(arriveTime[0] < 0 || arriveTime[0] >= 24 || arriveTime[1] < 0 || arriveTime[1] >= 60) {
+        printf("\n时间输入有误，请重新输入\n");
+        scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
+        getchar();
+    }
+    printf("/n确认?(Y/N)");
+    flag = getchar();
+    getchar();
+    if(flag == 'Y' || flag == 'y') {
+        i = LocateVex(G, beginCity);
+        j = LocateVex(G, arriveCity);
+        if(i == -1) {
+            printf("\n错误！无法找到起始城市\n");
+            return;
+        }
+        if(j == -1) {
+            printf("\n错误！无法找到到达城市\n");
+            return;
+        }
+        q = G->vexs[i].planeFirstArc;
+        m = 0;
+        while(q != NULL) {
+            if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
+                t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
+                q->info.stata[t].num = num;
+                q->info.stata[t].money = money;
+                q->info.stata[t].beginTime[0] = beginTime[0];
+                q->info.stata[t].beginTime[1] = beginTime[1];
+                q->info.stata[t].arriveTime[0] = arriveTime[0];
+                q->info.stata[t].arriveTime[1] = arriveTime[1];
+                q->info.last = t;
+                m = 1;
+                break;
+            }
+            q = q->nextArc;
+        }
+        if(m == 0) {
+            p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
+            p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
+            p->info.stata[0].num = num;
+            p->info.stata[0].money = money;
+            p->info.stata[0].beginTime[0] = beginTime[0];
+            p->info.stata[0].beginTime[1] = beginTime[1];
+            p->info.stata[0].arriveTime[0] = arriveTime[0];
+            p->info.stata[0].arriveTime[1] = arriveTime[1];
+            p->info.last = 0;
+            p->nextArc = G->vexs[i].planeFirstArc;
+            G->vexs[i].planeFirstArc = p; // 将弧结点连接到适当的位置中去
+            G->planeArcNum++;
+        }
+        save(G);
+    } else
+        return;
+}
+
+/*
+  增加列车车次
+*/
+void addTrainArc(ALGraph *G) {
+    int num, beginTime[2], arriveTime[2]; //num航班编号，beginTime出发时间，arriveTime到达时间
+    float money;  //费用
+    int i, j, m, t;
+    int k; //用来记录航班的车次
+    char beginCity[10], arriveCity[10], flag; //beginCity起始城市，arriveCity目标城市
+    ArcNode *p, *q;
+
+
+    printf("请输入列车车次的信息:\n"); //提示"输入列车信息"
+    printf("列车车次编号:");  //输入列车车次num
+    scanf("%d", &num);
+    getchar();
+    printf("起始城市:");   //输入列车的出发城市beginCity
+    gets(beginCity);
+    printf("目的城市:");  //输入列车的到达城市arriveCity
+    gets(arriveCity);
+    printf("车次费用:");  //输入车票money
+    scanf("%f", &money);
+    getchar();
+    printf("发车时间:");  //输入列车的出发时间beginTime
+    scanf("%d:%d", &beginTime[0], &beginTime[1]);
+    getchar();
+    while(beginTime[0] < 0 || beginTime[0] >= 24 || beginTime[1] < 0 || beginTime[1] >= 60) {
+        printf("\n时间输入有误，请重新输入\n");
+        scanf("%d:%d", &beginTime[0], &beginTime[1]);
+        getchar();
+    }
+    printf("到达时间:");  //输入航班的到达时间arrvieTime
+    scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
+    getchar();
+    while(arriveTime[0] < 0 || arriveTime[0] >= 24 || arriveTime[1] < 0 || arriveTime[1] >= 60) {
+        printf("\n时间输入有误，请重新输入\n");
+        scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
+        getchar();
+    }
+    printf("/n确认?(Y/N)");
+    flag = getchar();
+    getchar();
+
+    if(flag == 'Y' || flag == 'y') {
+        i = LocateVex(G, beginCity);
+        j = LocateVex(G, arriveCity);
+        if(i == -1) {
+            printf("\n错误！无法找到起始城市\n");
+            return;
+        }
+        if(j == -1) {
+            printf("\n错误！无法找到到达城市\n");
+            return;
+        }
+        q = G->vexs[i].trainFirstArc;
+        m = 0;
+        while(q != NULL) {
+            if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
+                t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
+                q->info.stata[t].num = num;
+                q->info.stata[t].money = money;
+                q->info.stata[t].beginTime[0] = beginTime[0];
+                q->info.stata[t].beginTime[1] = beginTime[1];
+                q->info.stata[t].arriveTime[0] = arriveTime[0];
+                q->info.stata[t].arriveTime[1] = arriveTime[1];
+                q->info.last = t;
+                m = 1;
+                break;
+            }
+            q = q->nextArc;
+        }
+        if(m == 0) {
+            p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
+            p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
+            p->info.stata[0].num = num;
+            p->info.stata[0].money = money;
+            p->info.stata[0].beginTime[0] = beginTime[0];
+            p->info.stata[0].beginTime[1] = beginTime[1];
+            p->info.stata[0].arriveTime[0] = arriveTime[0];
+            p->info.stata[0].arriveTime[1] = arriveTime[1];
+            p->info.last = 0;
+            p->nextArc = G->vexs[i].trainFirstArc;
+            G->vexs[i].trainFirstArc = p; // 将弧结点连接到适当的位置中去
+            G->trainArcNum++;
+        }
+        save(G);
+    } else
+        return;
+}
+
+int deletePlaneArc(ALGraph *G)
+/*
+  删除飞机航班
+*/
+{
+    int i, j;
+    int num;
+    char beginCity[10], arriveCity[10], flag;
+    int n;
+    int k;
+    ArcNode *p, *q;
+    printf("\n请输入删除飞机航班的信息:\n");
+    printf("飞机航班的编号:");
+    scanf("%d", &num);
+    getchar();
+    printf("起始城市:");
+    gets(beginCity);
+    printf("目的城市:");
+    gets(arriveCity);
+
+    printf("\n确认?(Y/N)");
+    flag = getchar();
+    getchar();
+
+    if(flag == 'Y' || flag == 'y') {
+        i = LocateVex(G, beginCity);
+        j = LocateVex(G, arriveCity);
+        if(i == -1) {
+            printf("\n错误！无法找到起始城市\n");
+            return 0;
+        }
+        if(j == -1) {
+            printf("\n错误！无法找到目的城市\n");
+            return 0;
+        }
+        p = G->vexs[i].planeFirstArc;
+        q = p;
+        while(p != NULL) {
+            if(p->adjvex == j) {
+                n = -1;
+                for(k = 0; k <= p->info.last; k++) {
+                    if(p->info.stata[k].num == num) {
+                        n = k;
+                        break;
+                    }
+                }
+                if(n != -1)
+                    if(p->info.last == 0) {
+                        if(q == p)
+                            G->vexs[i].planeFirstArc = p->nextArc;
+                        else
+                            q->nextArc = p->nextArc;
+                        free(p);
+                    } else {
+                        for(k = n; k < p->info.last; k++) {
+                            p->info.stata[k].num = p->info.stata[k + 1].num;
+                            p->info.stata[k].money = p->info.stata[k + 1].money;
+                            p->info.stata[k].beginTime[0] = p->info.stata[k + 1].beginTime[0];
+                            p->info.stata[k].beginTime[1] = p->info.stata[k + 1].beginTime[1];
+                            p->info.stata[k].arriveTime[0] = p->info.stata[k + 1].arriveTime[0];
+                            p->info.stata[k].arriveTime[1] = p->info.stata[k + 1].arriveTime[1];
+                        }
+                        p->info.last = p->info.last - 1;
+                    }
+                else
+                    printf("\n在此两城市之间无法找到No.%d飞机航班\n", num);
+                save(G);
+                return 1;
+            }
+            q = p;
+            p = p->nextArc;
+        }
+        if(p == NULL)
+            printf("\n在此两城市之间无飞机航班存在\n");
+    } else
+        return 1;
+    return 0;
+}
+int deleteTrainArc(ALGraph *G)
+/*
+  删除列车车次
+*/
+{
+    int i, j;
+    int num;
+    char beginCity[10], arriveCity[10], flag;
+    int n;
+    int k;
+    ArcNode *p, *q;
+    printf("\n请输入删除列车车次的信息:\n");
+    printf("列车车次的编号:");
+    scanf("%d", &num);
+    getchar();
+    printf("起始城市:");
+    gets(beginCity);
+    printf("目的城市:");
+    gets(arriveCity);
+    printf("\n确认?(Y/N)");
+    flag = getchar();
+    getchar();
+    if(flag == 'Y' || flag == 'y') {
+        i = LocateVex(G, beginCity);
+        j = LocateVex(G, arriveCity);
+        if(i == -1) {
+            printf("\n错误！无法找到起始城市\n");
+            return 0;
+        }
+        if(j == -1) {
+            printf("\n错误！无法找到目的城市\n");
+            return 0;
+        }
+        p = G->vexs[i].trainFirstArc;
+        q = p;
+        while(p != NULL) {
+            if(p->adjvex == j) {
+                n = -1;
+                for(k = 0; k <= p->info.last; k++) {
+                    if(p->info.stata[k].num == num) {
+                        n = k;
+                        break;
+                    }
+                }
+                if(n != -1)
+                    if(p->info.last == 0) {
+                        if(q == p)
+                            G->vexs[i].trainFirstArc = p->nextArc;
+                        else
+                            q->nextArc = p->nextArc;
+                        free(p);
+                    } else {
+                        for(k = n; k < p->info.last; k++) {
+                            p->info.stata[k].num = p->info.stata[k + 1].num;
+                            p->info.stata[k].money = p->info.stata[k + 1].money;
+                            p->info.stata[k].beginTime[0] = p->info.stata[k + 1].beginTime[0];
+                            p->info.stata[k].beginTime[1] = p->info.stata[k + 1].beginTime[1];
+                            p->info.stata[k].arriveTime[0] = p->info.stata[k + 1].arriveTime[0];
+                            p->info.stata[k].arriveTime[1] = p->info.stata[k + 1].arriveTime[1];
+                        }
+                        p->info.last = p->info.last - 1;
+                    }
+                else
+                    printf("\n在此两城市之间无法找到No.%d列车车次\n", num);
+                save(G);
+                return 1;
+            }
+            q = p;
+            p = p->nextArc;
+        }
+        if(p == NULL)
+            printf("\n在此两城市之间无该列车车次存在\n");
+    } else
+        return 1;
+    return 0;
+}
