@@ -47,7 +47,7 @@ typedef struct {
 
 typedef struct Node {
     int adjvex;
-    int route;
+    int route;//同个直达城市的不同班次
     struct Node *next;
 } Node;
 typedef struct QNode {
@@ -63,7 +63,7 @@ typedef struct {
 /**----------------用来记录的结构体--------------**/
 typedef struct TimeNode {
     int adjvex;
-    int route;
+    int route;    //同个直达城市的不同班次
     int begintime[2];
     int arrivetime[2];
     struct TimeNode *child[MAX_ROUTE_NUM];
@@ -107,5 +107,13 @@ void askDispose(int n, ALGraph G);
 void transferDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1);
 void minMoney(infoList arcs, float *money, int *route);
 void moneyDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, float *M, int *final);
+void minTime(infoList arcs, int *time, int *route);
+void createTimeTree(TimeTree p, int i, int j, LinkQueue *Q, infoList (*arcs)[MAX_VERTEX_NUM]);
+void copyTimeTree(TimeTree p, TimeTree q);
+void visitTimeTree(TimeTree p);
+void destoryTimeTree(TimeTree p);
+void timeDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, int (*T)[2], int *final);
+
+
 
 #endif // TRAFFIC_H_INCLUDED

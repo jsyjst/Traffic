@@ -1,5 +1,14 @@
 #include "traffic.h"
-#include "common.h"
+/*交通工具信息的录入*/
+struct arc {
+    int num;   //班次
+    float money; //费用
+    char beginCity[10];  //出发地
+    char arriveCity[10]; //目的地
+    int beginTime[2];   //出发时间
+    int arriveTime[2];  //到达时间
+} VehicleNote[MAX_ARC_SIZE];
+char city[MAX_VERTEX_NUM][10];
 
 void manager(ALGraph *G)
 /*
@@ -681,7 +690,7 @@ void addPlaneArc(ALGraph *G) {
         scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
         getchar();
     }
-    printf("/n确认?(Y/N)");
+    printf("\n确认?(Y/N)");
     flag = getchar();
     getchar();
     if(flag == 'Y' || flag == 'y') {
@@ -770,7 +779,7 @@ void addTrainArc(ALGraph *G) {
         scanf("%d:%d", &arriveTime[0], &arriveTime[1]);
         getchar();
     }
-    printf("/n确认?(Y/N)");
+    printf("\n确认?(Y/N)");
     flag = getchar();
     getchar();
 
