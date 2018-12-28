@@ -32,7 +32,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="common.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="manager.cpp" />
 		<Unit filename="showGraph.cpp" />

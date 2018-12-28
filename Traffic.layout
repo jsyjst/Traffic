@@ -2,34 +2,29 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="showGraph.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="579" topLine="0" />
+			<Cursor1 position="3651" topLine="78" />
 		</Cursor>
 	</File>
-	<File name="common.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="manager.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="319" topLine="0" />
+			<Cursor1 position="16856" topLine="633" />
 		</Cursor>
 	</File>
 	<File name="traffic.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1449" topLine="30" />
+			<Cursor1 position="2596" topLine="85" />
 		</Cursor>
 	</File>
 	<File name="userAsk.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="12818" topLine="320" />
+			<Cursor1 position="26709" topLine="733" />
 		</Cursor>
 	</File>
-	<File name="manager.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="26242" topLine="665" />
-		</Cursor>
-	</File>
-	<File name="showGraph.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3651" topLine="78" />
+			<Cursor1 position="20" topLine="2" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

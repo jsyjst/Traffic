@@ -10,7 +10,6 @@ int d[MAX_VERTEX_NUM];
 */
 void userAsk(ALGraph G) {
     int i;
-    char q;
     printf("\n                           咨询项目\n");
     printf("\n            |            1.最少旅行费用           |\n");
     printf("\n            |            2.最少旅行时间           |\n");
@@ -458,8 +457,8 @@ void timeTreeDispose(Node *head, infoList (*arcs)[MAX_VERTEX_NUM])
     for(n = 0; n <= (*(*(arcs + i) + j)).last; n++) {
         time1[0] = 0;
         time1[1] = 0;
-        time2[0] = root->child[n]->begintime[0];
-        time2[1] = root->child[n]->begintime[1];
+        time2[0] = root->child[n]->beginTime[0];
+        time2[1] = root->child[n]->beginTime[1];
         time[0] = INFINITY;
         time[1] = INFINITY;
         visitTimeTree(root->child[n]);
@@ -484,19 +483,19 @@ void createTimeTree(TimeTree p, int i, int j, LinkQueue *Q, infoList (*arcs)[MAX
     TimeTree q;
     q = (TimeNode *)malloc(sizeof(TimeNode));
     q->adjvex = j;
-    q->begintime[0] = (*(*(arcs + i) + j)).stata[0].beginTime[0];
-    q->begintime[1] = (*(*(arcs + i) + j)).stata[0].beginTime[1];
-    q->arrivetime[0] = (*(*(arcs + i) + j)).stata[0].arriveTime[0];
-    q->arrivetime[1] = (*(*(arcs + i) + j)).stata[0].arriveTime[1];
+    q->beginTime[0] = (*(*(arcs + i) + j)).stata[0].beginTime[0];
+    q->beginTime[1] = (*(*(arcs + i) + j)).stata[0].beginTime[1];
+    q->arriveTime[0] = (*(*(arcs + i) + j)).stata[0].arriveTime[0];
+    q->arriveTime[1] = (*(*(arcs + i) + j)).stata[0].arriveTime[1];
     q->route = 0;
     p->child[0] = q;
     for(n = 1; n <= (*(*(arcs + i) + j)).last; n++) {
         q = (TimeNode *)malloc(sizeof(TimeNode));
         q->adjvex = j;
-        q->begintime[0] = (*(*(arcs + i) + j)).stata[n].beginTime[0];
-        q->begintime[1] = (*(*(arcs + i) + j)).stata[n].beginTime[1];
-        q->arrivetime[0] = (*(*(arcs + i) + j)).stata[n].arriveTime[0];
-        q->arrivetime[1] = (*(*(arcs + i) + j)).stata[n].arriveTime[1];
+        q->beginTime[0] = (*(*(arcs + i) + j)).stata[n].beginTime[0];
+        q->beginTime[1] = (*(*(arcs + i) + j)).stata[n].beginTime[1];
+        q->arriveTime[0] = (*(*(arcs + i) + j)).stata[n].arriveTime[0];
+        q->arriveTime[1] = (*(*(arcs + i) + j)).stata[n].arriveTime[1];
         q->route = n;
         p->child[n] = q;
     }
@@ -528,10 +527,10 @@ void copyTimeTree(TimeTree p, TimeTree q)
     while(q->child[n] != NULL) {
         r = (TimeNode *)malloc(sizeof(TimeNode));
         r->adjvex = q->child[n]->adjvex;
-        r->begintime[0] = q->child[n]->begintime[0];
-        r->begintime[1] = q->child[n]->begintime[1];
-        r->arrivetime[0] = q->child[n]->arrivetime[0];
-        r->arrivetime[1] = q->child[n]->arrivetime[1];
+        r->beginTime[0] = q->child[n]->beginTime[0];
+        r->beginTime[1] = q->child[n]->beginTime[1];
+        r->arriveTime[0] = q->child[n]->arriveTime[0];
+        r->arriveTime[1] = q->child[n]->arriveTime[1];
         r->route = q->child[n]->route;
         p->child[n] = r;
         copyTimeTree(p->child[n], q->child[n]);
@@ -549,14 +548,13 @@ void visitTimeTree(TimeTree p)
 */
 {
     int n, x[2], y[2];
-//TimeTree q;
     x[0] = time1[0];
     x[1] = time1[1];
     y[0] = time2[0];
     y[1] = time2[1];
-    if(p->begintime[0] > time2[0] || (p->begintime[0] == time2[0] && p->begintime[1] >= time2[1])) {
-        time1[0] = time1[0] + p->begintime[0] - time2[0];
-        time1[1] = time1[1] + p->begintime[1] - time2[1];
+    if(p->beginTime[0] > time2[0] || (p->beginTime[0] == time2[0] && p->beginTime[1] >= time2[1])) {
+        time1[0] = time1[0] + p->beginTime[0] - time2[0];
+        time1[1] = time1[1] + p->beginTime[1] - time2[1];
         if(time1[1] < 0) {
             time1[1] = time1[1] + 60;
             time1[0]--;
@@ -565,32 +563,9 @@ void visitTimeTree(TimeTree p)
             time1[1] = time1[1] - 60;
             time1[0]++;
         }
-    } else if(p->begintime[0] < time2[0] || (p->begintime[0] == time2[0] && p->begintime[1] < time2[1])) {
-        time1[0] = time1[0] + p->begintime[0] - time2[0] + 24;
-        time1[1] = time1[1] + p->begintime[1] - time2[1];
-        if(time1[1] < 0) {
-            time1[1] = time1[1] + 60;
-            time1[0]--;
-        }
-        if(time1[1] >= 60) {
-            time1[1] = time1[1] - 60;
-            time1[0]++;
-        }
-    }
-    if(p->arrivetime[0] > p->begintime[0] || (p->arrivetime[0] == p->begintime[0] && p->arrivetime[1] >= p->begintime[1])) {
-        time1[0] = time1[0] + p->arrivetime[0] - p->begintime[0];
-        time1[1] = time1[1] + p->arrivetime[1] - p->begintime[1];
-        if(time1[1] < 0) {
-            time1[1] = time1[1] + 60;
-            time1[0]--;
-        }
-        if(time1[1] >= 60) {
-            time1[1] = time1[1] - 60;
-            time1[0]++;
-        }
-    } else if(p->arrivetime[0] < p->begintime[0] || (p->arrivetime[0] == p->begintime[0] && p->arrivetime[1] < p->begintime[1])) {
-        time1[0] = time1[0] + p->arrivetime[0] - p->begintime[0] + 24;
-        time1[1] = time1[1] + p->arrivetime[1] - p->begintime[1];
+    } else if(p->beginTime[0] < time2[0] || (p->beginTime[0] == time2[0] && p->beginTime[1] < time2[1])) {
+        time1[0] = time1[0] + p->beginTime[0] - time2[0] + 24;
+        time1[1] = time1[1] + p->beginTime[1] - time2[1];
         if(time1[1] < 0) {
             time1[1] = time1[1] + 60;
             time1[0]--;
@@ -600,8 +575,31 @@ void visitTimeTree(TimeTree p)
             time1[0]++;
         }
     }
-    time2[0] = p->arrivetime[0];
-    time2[1] = p->arrivetime[1];
+    if(p->arriveTime[0] > p->beginTime[0] || (p->arriveTime[0] == p->beginTime[0] && p->arriveTime[1] >= p->beginTime[1])) {
+        time1[0] = time1[0] + p->arriveTime[0] - p->beginTime[0];
+        time1[1] = time1[1] + p->arriveTime[1] - p->beginTime[1];
+        if(time1[1] < 0) {
+            time1[1] = time1[1] + 60;
+            time1[0]--;
+        }
+        if(time1[1] >= 60) {
+            time1[1] = time1[1] - 60;
+            time1[0]++;
+        }
+    } else if(p->arriveTime[0] < p->beginTime[0] || (p->arriveTime[0] == p->beginTime[0] && p->arriveTime[1] < p->beginTime[1])) {
+        time1[0] = time1[0] + p->arriveTime[0] - p->beginTime[0] + 24;
+        time1[1] = time1[1] + p->arriveTime[1] - p->beginTime[1];
+        if(time1[1] < 0) {
+            time1[1] = time1[1] + 60;
+            time1[0]--;
+        }
+        if(time1[1] >= 60) {
+            time1[1] = time1[1] - 60;
+            time1[0]++;
+        }
+    }
+    time2[0] = p->arriveTime[0];
+    time2[1] = p->arriveTime[1];
     c[p->adjvex] = p->route;
     if(p->child[0] == NULL) {
         if(time1[0] < time[0] || (time1[0] == time[0] && time1[1] < time[1])) {

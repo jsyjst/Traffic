@@ -64,8 +64,8 @@ typedef struct {
 typedef struct TimeNode {
     int adjvex;
     int route;    //同个直达城市的不同班次
-    int begintime[2];
-    int arrivetime[2];
+    int beginTime[2];
+    int arriveTime[2];
     struct TimeNode *child[MAX_ROUTE_NUM];
 } TimeNode, *TimeTree;
 
