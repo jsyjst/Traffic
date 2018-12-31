@@ -16,12 +16,13 @@ void manager(ALGraph *G)
 */
 {
     int i;
-    printf("                         管理员管理:\n");
+    printf("                          管理系统:\n");
     printf("\n            |            1.初始化交通系统           |\n");
     printf("\n            |            2.城市编辑                 |\n");
     printf("\n            |            3.飞机航班编辑             |\n");
     printf("\n            |            4.列车车次编辑             |\n");
     printf("\n            |            5.返回上一级菜单           |\n");
+    printf("\n            注：如果要选择2，3，4操作，请先进行初始化交通信息\n");
     printf("\n选择?");
     scanf("%d", &i);
     getchar();
@@ -40,12 +41,13 @@ void manager(ALGraph *G)
             trainEdit(G);  //列车编辑
             break;
         }
-        printf("                         管理员管理:\n");
+        printf("                          管理系统:\n");
         printf("\n            |            1.初始化交通系统           |\n");
         printf("\n            |            2.城市编辑                 |\n");
         printf("\n            |            3.飞机航班编辑             |\n");
         printf("\n            |            4.列车车次编辑             |\n");
         printf("\n            |            5.返回上一级菜单           |\n");
+        printf("\n            注：如果要选择2，3，4操作，请先进入管理系统进行初始化交通信息\n");
         printf("\n选择?");
         scanf("%d", &i);
         getchar();
@@ -306,12 +308,12 @@ void createGraph(ALGraph *G) {
         while(q != NULL) {
             if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
                 t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
-                q->info.stata[t].num = VehicleNote[k].num;
-                q->info.stata[t].money = VehicleNote[k].money;
-                q->info.stata[t].beginTime[0] = VehicleNote[k].beginTime[0];
-                q->info.stata[t].beginTime[1] = VehicleNote[k].beginTime[1];
-                q->info.stata[t].arriveTime[0] = VehicleNote[k].arriveTime[0];
-                q->info.stata[t].arriveTime[1] = VehicleNote[k].arriveTime[1];
+                q->info.route[t].num = VehicleNote[k].num;
+                q->info.route[t].money = VehicleNote[k].money;
+                q->info.route[t].beginTime[0] = VehicleNote[k].beginTime[0];
+                q->info.route[t].beginTime[1] = VehicleNote[k].beginTime[1];
+                q->info.route[t].arriveTime[0] = VehicleNote[k].arriveTime[0];
+                q->info.route[t].arriveTime[1] = VehicleNote[k].arriveTime[1];
                 q->info.last = t;
                 m = 1;
                 break;
@@ -321,12 +323,12 @@ void createGraph(ALGraph *G) {
         if(m == 0) {
             p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
             p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
-            p->info.stata[0].num = VehicleNote[k].num;
-            p->info.stata[0].money = VehicleNote[k].money;
-            p->info.stata[0].beginTime[0] = VehicleNote[k].beginTime[0];
-            p->info.stata[0].beginTime[1] = VehicleNote[k].beginTime[1];
-            p->info.stata[0].arriveTime[0] = VehicleNote[k].arriveTime[0];
-            p->info.stata[0].arriveTime[1] = VehicleNote[k].arriveTime[1];
+            p->info.route[0].num = VehicleNote[k].num;
+            p->info.route[0].money = VehicleNote[k].money;
+            p->info.route[0].beginTime[0] = VehicleNote[k].beginTime[0];
+            p->info.route[0].beginTime[1] = VehicleNote[k].beginTime[1];
+            p->info.route[0].arriveTime[0] = VehicleNote[k].arriveTime[0];
+            p->info.route[0].arriveTime[1] = VehicleNote[k].arriveTime[1];
             p->info.last = 0;
             p->nextArc = G->vexs[i].planeFirstArc;
             G->vexs[i].planeFirstArc = p; // 将弧结点连接到适当的位置中去
@@ -357,12 +359,12 @@ void createGraph(ALGraph *G) {
         while(q != NULL) {
             if(q->adjvex == j) { //弧q中的邻接顶点与j相等
                 t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
-                q->info.stata[t].num = VehicleNote[k].num;
-                q->info.stata[t].money = VehicleNote[k].money;
-                q->info.stata[t].beginTime[0] = VehicleNote[k].beginTime[0];
-                q->info.stata[t].beginTime[1] = VehicleNote[k].beginTime[1];
-                q->info.stata[t].arriveTime[0] = VehicleNote[k].arriveTime[0];
-                q->info.stata[t].arriveTime[1] = VehicleNote[k].arriveTime[1];
+                q->info.route[t].num = VehicleNote[k].num;
+                q->info.route[t].money = VehicleNote[k].money;
+                q->info.route[t].beginTime[0] = VehicleNote[k].beginTime[0];
+                q->info.route[t].beginTime[1] = VehicleNote[k].beginTime[1];
+                q->info.route[t].arriveTime[0] = VehicleNote[k].arriveTime[0];
+                q->info.route[t].arriveTime[1] = VehicleNote[k].arriveTime[1];
                 q->info.last = t;
                 m = 1;
                 break;
@@ -372,12 +374,12 @@ void createGraph(ALGraph *G) {
         if(m == 0) {
             p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
             p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
-            p->info.stata[0].num = VehicleNote[k].num;
-            p->info.stata[0].money = VehicleNote[k].money;
-            p->info.stata[0].beginTime[0] = VehicleNote[k].beginTime[0];
-            p->info.stata[0].beginTime[1] = VehicleNote[k].beginTime[1];
-            p->info.stata[0].arriveTime[0] = VehicleNote[k].arriveTime[0];
-            p->info.stata[0].arriveTime[1] = VehicleNote[k].arriveTime[1];
+            p->info.route[0].num = VehicleNote[k].num;
+            p->info.route[0].money = VehicleNote[k].money;
+            p->info.route[0].beginTime[0] = VehicleNote[k].beginTime[0];
+            p->info.route[0].beginTime[1] = VehicleNote[k].beginTime[1];
+            p->info.route[0].arriveTime[0] = VehicleNote[k].arriveTime[0];
+            p->info.route[0].arriveTime[1] = VehicleNote[k].arriveTime[1];
             p->info.last = 0;
             p->nextArc = G->vexs[i].trainFirstArc;
             G->vexs[i].trainFirstArc = p; // 将弧结点连接到适当的位置中去
@@ -386,6 +388,7 @@ void createGraph(ALGraph *G) {
         k++;
     }
     G->trainArcNum = arcNum;
+    printf("初始化成功\n");
 }
 
 
@@ -419,12 +422,12 @@ int save(ALGraph *G) {
             for(t = 0; t <= q->info.last; t++) {
                 strcpy(VehicleNote[k].beginCity, G->vexs[i].cityName);
                 strcpy(VehicleNote[k].arriveCity, G->vexs[q->adjvex].cityName);
-                VehicleNote[k].num = q->info.stata[t].num;
-                VehicleNote[k].money = q->info.stata[t].money;
-                VehicleNote[k].beginTime[0] = q->info.stata[t].beginTime[0];
-                VehicleNote[k].beginTime[1] = q->info.stata[t].beginTime[1];
-                VehicleNote[k].arriveTime[0] = q->info.stata[t].arriveTime[0];
-                VehicleNote[k].arriveTime[1] = q->info.stata[t].arriveTime[0];
+                VehicleNote[k].num = q->info.route[t].num;
+                VehicleNote[k].money = q->info.route[t].money;
+                VehicleNote[k].beginTime[0] = q->info.route[t].beginTime[0];
+                VehicleNote[k].beginTime[1] = q->info.route[t].beginTime[1];
+                VehicleNote[k].arriveTime[0] = q->info.route[t].arriveTime[0];
+                VehicleNote[k].arriveTime[1] = q->info.route[t].arriveTime[0];
                 k++;
             }
             q = q->nextArc;
@@ -452,12 +455,12 @@ int save(ALGraph *G) {
             for(t = 0; t <= q->info.last; t++) {
                 strcpy(VehicleNote[k].beginCity, G->vexs[i].cityName);
                 strcpy(VehicleNote[k].arriveCity, G->vexs[q->adjvex].cityName);
-                VehicleNote[k].num = q->info.stata[t].num;
-                VehicleNote[k].money = q->info.stata[t].money;
-                VehicleNote[k].beginTime[0] = q->info.stata[t].beginTime[0];
-                VehicleNote[k].beginTime[1] = q->info.stata[t].beginTime[1];
-                VehicleNote[k].arriveTime[0] = q->info.stata[t].arriveTime[0];
-                VehicleNote[k].arriveTime[1] = q->info.stata[t].arriveTime[0];
+                VehicleNote[k].num = q->info.route[t].num;
+                VehicleNote[k].money = q->info.route[t].money;
+                VehicleNote[k].beginTime[0] = q->info.route[t].beginTime[0];
+                VehicleNote[k].beginTime[1] = q->info.route[t].beginTime[1];
+                VehicleNote[k].arriveTime[0] = q->info.route[t].arriveTime[0];
+                VehicleNote[k].arriveTime[1] = q->info.route[t].arriveTime[0];
                 k++;
             }
             q = q->nextArc;
@@ -485,7 +488,7 @@ int save(ALGraph *G) {
 void cityEdit(ALGraph *G) {
     int i;
     printf("\n请选择城市编辑项目:\n");
-    printf("1=增加城市\n2=删除城市\n");
+    printf("1.增加城市\n2.=删除城市\n");
     printf("选择?");
     scanf("%d", &i);
     getchar();
@@ -627,7 +630,7 @@ void deleteVex(ALGraph *G) {
 void planeEdit(ALGraph *G) {
     int i;
     printf("\n请选择飞机航班编辑项目:\n");
-    printf("1=新增航班\n2=删除航班\n");
+    printf("1.新增航班\n2.删除航班\n");
     printf("选择?");
     scanf("%d", &i);
     getchar();
@@ -642,7 +645,7 @@ void planeEdit(ALGraph *G) {
 void trainEdit(ALGraph *G) {
     int i;
     printf("\n请选择列车车次编辑项目:\n");
-    printf("1=新增车次\n2=删除车次\n");
+    printf("1.新增车次\n2.删除车次\n");
     printf("选择?");
     scanf("%d", &i);
     getchar();
@@ -709,12 +712,12 @@ void addPlaneArc(ALGraph *G) {
         while(q != NULL) {
             if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
                 t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
-                q->info.stata[t].num = num;
-                q->info.stata[t].money = money;
-                q->info.stata[t].beginTime[0] = beginTime[0];
-                q->info.stata[t].beginTime[1] = beginTime[1];
-                q->info.stata[t].arriveTime[0] = arriveTime[0];
-                q->info.stata[t].arriveTime[1] = arriveTime[1];
+                q->info.route[t].num = num;
+                q->info.route[t].money = money;
+                q->info.route[t].beginTime[0] = beginTime[0];
+                q->info.route[t].beginTime[1] = beginTime[1];
+                q->info.route[t].arriveTime[0] = arriveTime[0];
+                q->info.route[t].arriveTime[1] = arriveTime[1];
                 q->info.last = t;
                 m = 1;
                 break;
@@ -724,12 +727,12 @@ void addPlaneArc(ALGraph *G) {
         if(m == 0) {
             p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
             p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
-            p->info.stata[0].num = num;
-            p->info.stata[0].money = money;
-            p->info.stata[0].beginTime[0] = beginTime[0];
-            p->info.stata[0].beginTime[1] = beginTime[1];
-            p->info.stata[0].arriveTime[0] = arriveTime[0];
-            p->info.stata[0].arriveTime[1] = arriveTime[1];
+            p->info.route[0].num = num;
+            p->info.route[0].money = money;
+            p->info.route[0].beginTime[0] = beginTime[0];
+            p->info.route[0].beginTime[1] = beginTime[1];
+            p->info.route[0].arriveTime[0] = arriveTime[0];
+            p->info.route[0].arriveTime[1] = arriveTime[1];
             p->info.last = 0;
             p->nextArc = G->vexs[i].planeFirstArc;
             G->vexs[i].planeFirstArc = p; // 将弧结点连接到适当的位置中去
@@ -799,12 +802,12 @@ void addTrainArc(ALGraph *G) {
         while(q != NULL) {
             if(q->adjvex == j) { //弧 q中的邻接顶点与j相等
                 t = q->info.last + 1; // 将数组VehicleNode中的内容都复制到弧q中
-                q->info.stata[t].num = num;
-                q->info.stata[t].money = money;
-                q->info.stata[t].beginTime[0] = beginTime[0];
-                q->info.stata[t].beginTime[1] = beginTime[1];
-                q->info.stata[t].arriveTime[0] = arriveTime[0];
-                q->info.stata[t].arriveTime[1] = arriveTime[1];
+                q->info.route[t].num = num;
+                q->info.route[t].money = money;
+                q->info.route[t].beginTime[0] = beginTime[0];
+                q->info.route[t].beginTime[1] = beginTime[1];
+                q->info.route[t].arriveTime[0] = arriveTime[0];
+                q->info.route[t].arriveTime[1] = arriveTime[1];
                 q->info.last = t;
                 m = 1;
                 break;
@@ -814,12 +817,12 @@ void addTrainArc(ALGraph *G) {
         if(m == 0) {
             p = (ArcNode*)malloc(sizeof(ArcNode)); //开辟一个弧结点
             p->adjvex = j; //将数组VehicleNode中的内容都复制到新的弧结点中
-            p->info.stata[0].num = num;
-            p->info.stata[0].money = money;
-            p->info.stata[0].beginTime[0] = beginTime[0];
-            p->info.stata[0].beginTime[1] = beginTime[1];
-            p->info.stata[0].arriveTime[0] = arriveTime[0];
-            p->info.stata[0].arriveTime[1] = arriveTime[1];
+            p->info.route[0].num = num;
+            p->info.route[0].money = money;
+            p->info.route[0].beginTime[0] = beginTime[0];
+            p->info.route[0].beginTime[1] = beginTime[1];
+            p->info.route[0].arriveTime[0] = arriveTime[0];
+            p->info.route[0].arriveTime[1] = arriveTime[1];
             p->info.last = 0;
             p->nextArc = G->vexs[i].trainFirstArc;
             G->vexs[i].trainFirstArc = p; // 将弧结点连接到适当的位置中去
@@ -871,7 +874,7 @@ int deletePlaneArc(ALGraph *G)
             if(p->adjvex == j) {
                 n = -1;
                 for(k = 0; k <= p->info.last; k++) {
-                    if(p->info.stata[k].num == num) {
+                    if(p->info.route[k].num == num) {
                         n = k;
                         break;
                     }
@@ -885,12 +888,12 @@ int deletePlaneArc(ALGraph *G)
                         free(p);
                     } else {
                         for(k = n; k < p->info.last; k++) {
-                            p->info.stata[k].num = p->info.stata[k + 1].num;
-                            p->info.stata[k].money = p->info.stata[k + 1].money;
-                            p->info.stata[k].beginTime[0] = p->info.stata[k + 1].beginTime[0];
-                            p->info.stata[k].beginTime[1] = p->info.stata[k + 1].beginTime[1];
-                            p->info.stata[k].arriveTime[0] = p->info.stata[k + 1].arriveTime[0];
-                            p->info.stata[k].arriveTime[1] = p->info.stata[k + 1].arriveTime[1];
+                            p->info.route[k].num = p->info.route[k + 1].num;
+                            p->info.route[k].money = p->info.route[k + 1].money;
+                            p->info.route[k].beginTime[0] = p->info.route[k + 1].beginTime[0];
+                            p->info.route[k].beginTime[1] = p->info.route[k + 1].beginTime[1];
+                            p->info.route[k].arriveTime[0] = p->info.route[k + 1].arriveTime[0];
+                            p->info.route[k].arriveTime[1] = p->info.route[k + 1].arriveTime[1];
                         }
                         p->info.last = p->info.last - 1;
                     }
@@ -947,7 +950,7 @@ int deleteTrainArc(ALGraph *G)
             if(p->adjvex == j) {
                 n = -1;
                 for(k = 0; k <= p->info.last; k++) {
-                    if(p->info.stata[k].num == num) {
+                    if(p->info.route[k].num == num) {
                         n = k;
                         break;
                     }
@@ -961,12 +964,12 @@ int deleteTrainArc(ALGraph *G)
                         free(p);
                     } else {
                         for(k = n; k < p->info.last; k++) {
-                            p->info.stata[k].num = p->info.stata[k + 1].num;
-                            p->info.stata[k].money = p->info.stata[k + 1].money;
-                            p->info.stata[k].beginTime[0] = p->info.stata[k + 1].beginTime[0];
-                            p->info.stata[k].beginTime[1] = p->info.stata[k + 1].beginTime[1];
-                            p->info.stata[k].arriveTime[0] = p->info.stata[k + 1].arriveTime[0];
-                            p->info.stata[k].arriveTime[1] = p->info.stata[k + 1].arriveTime[1];
+                            p->info.route[k].num = p->info.route[k + 1].num;
+                            p->info.route[k].money = p->info.route[k + 1].money;
+                            p->info.route[k].beginTime[0] = p->info.route[k + 1].beginTime[0];
+                            p->info.route[k].beginTime[1] = p->info.route[k + 1].beginTime[1];
+                            p->info.route[k].arriveTime[0] = p->info.route[k + 1].arriveTime[0];
+                            p->info.route[k].arriveTime[1] = p->info.route[k + 1].arriveTime[1];
                         }
                         p->info.last = p->info.last - 1;
                     }

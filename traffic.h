@@ -3,9 +3,9 @@
 #include"stdio.h"
 #include"stdlib.h"
 #include"string.h"
-#define MAX_VERTEX_NUM 18
+#define MAX_VERTEX_NUM 20
 #define NULL 0
-#define MAX_ARC_SIZE 100
+#define MAX_ARC_SIZE 50
 #define MAX_ROUTE_NUM 5
 #define False 0
 #define True 1
@@ -21,12 +21,12 @@ typedef struct {
     int arriveTime[2]; //到达时间
 } Vehicle; //交通工具信息
 typedef struct {
-    Vehicle stata[MAX_ROUTE_NUM];  //存储同个目的地和出发地的多个航班
-    int last;  //最后一个航班
+    Vehicle route[MAX_ROUTE_NUM];  //存储同个目的地和出发地的多个航班
+    int last;  //同个出发地和目的地的数量
 } infoList;
 /*邻接链表的结点类型*/
 typedef struct ArcNode {
-    int adjvex;
+    int adjvex;     //顶点位序
     struct ArcNode *nextArc;
     infoList info;     //存储
 } ArcNode;  //邻接链表的结点类型
@@ -60,7 +60,7 @@ typedef struct {
 } LinkQueue;   //链队列
 
 
-/**----------------用来记录的结构体--------------**/
+/**----------------用来记录时间的结构体--------------**/
 typedef struct TimeNode {
     int adjvex;
     int route;    //同个直达城市的不同班次
@@ -103,16 +103,16 @@ void trainDedailByNum(ALGraph *G);  //通过列车车次查询该车次的详细信息
 
 /**----------------用户咨询------------------------------------**/
 void userAsk(ALGraph G);
-void askDispose(int n, ALGraph G);
-void transferDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1);
-void minMoney(infoList arcs, float *money, int *route);
-void moneyDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, float *M, int *final);
-void minTime(infoList arcs, int *time, int *route);
-void createTimeTree(TimeTree p, int i, int j, LinkQueue *Q, infoList (*arcs)[MAX_VERTEX_NUM]);
-void copyTimeTree(TimeTree p, TimeTree q);
-void visitTimeTree(TimeTree p);
-void destoryTimeTree(TimeTree p);
-void timeDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, int (*T)[2], int *final);
+void askDispose(int n, ALGraph G);    //选择询问类型
+void transferDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1);   //中转站最优策略
+void minMoney(infoList arcs, float *money, int *route);   //直达城市花费最优
+void moneyDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, float *M, int *final);  //花费最优策略
+void minTime(infoList arcs, int *time, int *route);  //直达城市所用时间最优
+void createTimeTree(TimeTree p, int i, int j, LinkQueue *Q, infoList (*arcs)[MAX_VERTEX_NUM]);  //创建时间树
+void copyTimeTree(TimeTree p, TimeTree q); //复制时间树
+void visitTimeTree(TimeTree p);   //访问时间树
+void destoryTimeTree(TimeTree p);  //销毁时间树
+void timeDispose(int k, infoList (*arcs)[MAX_VERTEX_NUM], ALGraph G, int v0, int v1, int (*T)[2], int *final); //时间最优策略
 
 
 

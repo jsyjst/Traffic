@@ -60,10 +60,10 @@ void showTraffic(ALGraph *G) {
         q = G->vexs[j].planeFirstArc;
         while(q != NULL) {
             for(k = 0; k <= q->info.last; k++) {
-                printf("   %d            %2d:%2d             %2d:%2d             %4s            %4s            %.2f",
-                       q->info.stata[k].num, q->info.stata[k].beginTime[0], q->info.stata[k].beginTime[1],
-                       q->info.stata[k].arriveTime[0], q->info.stata[k].arriveTime[1],
-                       G->vexs[j].cityName, G->vexs[q->adjvex].cityName, q->info.stata[k].money);
+                printf("   %04d           %02d:%02d             %02d:%02d             %4s            %4s            %.2f",
+                       q->info.route[k].num, q->info.route[k].beginTime[0], q->info.route[k].beginTime[1],
+                       q->info.route[k].arriveTime[0], q->info.route[k].arriveTime[1],
+                       G->vexs[j].cityName, G->vexs[q->adjvex].cityName, q->info.route[k].money);
                 printf("\n");
             }
             q = q->nextArc;
@@ -78,10 +78,10 @@ void showTraffic(ALGraph *G) {
         q = G->vexs[j].trainFirstArc;
         while(q != NULL) {
             for(k = 0; k <= q->info.last; k++) {
-                printf("   %d           %2d:%2d             %2d:%2d             %4s            %4s            %.2f",
-                       q->info.stata[k].num, q->info.stata[k].beginTime[0], q->info.stata[k].beginTime[1],
-                       q->info.stata[k].arriveTime[0], q->info.stata[k].arriveTime[1],
-                       G->vexs[j].cityName, G->vexs[q->adjvex].cityName, q->info.stata[k].money);
+                printf("   %04d           %02d:%02d             %02d:%02d             %4s            %4s            %.2f",
+                       q->info.route[k].num, q->info.route[k].beginTime[0], q->info.route[k].beginTime[1],
+                       q->info.route[k].arriveTime[0], q->info.route[k].arriveTime[1],
+                       G->vexs[j].cityName, G->vexs[q->adjvex].cityName, q->info.route[k].money);
                 printf("\n");
             }
             q = q->nextArc;
@@ -102,11 +102,11 @@ void planeDedailByNum(ALGraph *G) {
         q = G->vexs[j].planeFirstArc;
         while(q != NULL) {
             for(k = 0; k <= q->info.last; k++) {
-                if(q->info.stata[k].num == num) {
-                    printf("                        %.2f元             \n", q->info.stata[k].money);
+                if(q->info.route[k].num == num) {
+                    printf("                        %.2f元             \n", q->info.route[k].money);
                     printf("              %s------------------>%s        ", G->vexs[j].cityName, G->vexs[q->adjvex].cityName);
-                    printf("时间:%d:%2d----%2d:%2d", q->info.stata[k].beginTime[0], q->info.stata[k].beginTime[1],
-                           q->info.stata[k].arriveTime[0], q->info.stata[k].arriveTime[1]);
+                    printf("时间:%02d:%02d----%02d:%02d", q->info.route[k].beginTime[0], q->info.route[k].beginTime[1],
+                           q->info.route[k].arriveTime[0], q->info.route[k].arriveTime[1]);
                     printf("\n");
                     return;
                 }
@@ -131,11 +131,11 @@ void trainDedailByNum(ALGraph *G) {
         q = G->vexs[j].trainFirstArc;
         while(q != NULL) {
             for(k = 0; k <= q->info.last; k++) {
-                if(q->info.stata[k].num == num) {
-                    printf("                        %.2f元             \n", q->info.stata[k].money);
+                if(q->info.route[k].num == num) {
+                    printf("                        %.2f元             \n", q->info.route[k].money);
                     printf("              %s------------------>%s        ", G->vexs[j].cityName, G->vexs[q->adjvex].cityName);
-                    printf("时间:%d:%2d----%2d:%2d", q->info.stata[k].beginTime[0], q->info.stata[k].beginTime[1],
-                           q->info.stata[k].arriveTime[0], q->info.stata[k].arriveTime[1]);
+                    printf("时间:%02d:%02d----%02d:%02d", q->info.route[k].beginTime[0], q->info.route[k].beginTime[1],
+                           q->info.route[k].arriveTime[0], q->info.route[k].arriveTime[1]);
                     printf("\n");
                     return;
                 }
